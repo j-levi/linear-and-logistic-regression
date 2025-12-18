@@ -1,48 +1,23 @@
-# Linear & Logistic Regression (Mathematical Notes)
+# Linear & Logistic Regression
 
 ## Overview
-This project contains implementations and experiments for linear regression (ordinary least squares, ridge) and logistic regression for binary classification. The README outlines the objective functions, closed-form solutions, and optimization methods.
+This folder collects experiments that compare two workhorses of supervised learning: linear regression for continuous targets and logistic regression for binary labels. The focus is on intuition, behavior, and trade-offs rather than derivations.
 
-## Linear Regression (OLS)
-Given design matrix X ∈ R^{n×d} and targets y ∈ R^n, Ordinary Least Squares minimizes:
-$$
-\min_w \ \|X w - y\|^2_2.
-$$
-Normal equations give the closed-form solution (if X^T X is invertible):
-$$
-w^* = (X^T X)^{-1} X^T y.
-$$
-Ridge regression (L2 regularization) adds a penalty λ>0:
-$$
-\min_w \ \|X w - y\|^2_2 + \lambda \|w\|^2_2 \Rightarrow w^* = (X^T X + \lambda I)^{-1} X^T y.
-$$
+## Linear regression (fit a line/plane)
+- Predicts a numeric outcome by combining input features with learned weights.
+- Ridge regression adds a penalty on large weights to reduce overfitting and stabilize solutions.
+- Useful when relationships are roughly linear and you want interpretable coefficients.
 
-## Logistic Regression
-For binary labels y_i ∈ {0,1}, model the probability with the logistic (sigmoid) function:
-$$
-p(y=1|x;w) = \sigma(w^T x) = \frac{1}{1 + e^{-w^T x}}.
-$$
-The negative log-likelihood (cross-entropy loss) is:
-$$
-L(w) = -\sum_{i=1}^n \left[ y_i \log \sigma(w^T x_i) + (1-y_i) \log (1-\sigma(w^T x_i)) \right].
-$$
-Gradient of the loss:
-$$
-\nabla_w L = X^T (\sigma(Xw) - y).
-$$
-Optimization is typically done with gradient descent, Newton-Raphson (IRLS), or quasi-Newton methods (L-BFGS). Regularization terms (L2, L1) can be added to the objective.
+## Logistic regression (fit a boundary)
+- Predicts the probability of belonging to a class using the logistic (sigmoid) link.
+- Optimized with gradient-based methods; regularization (L1/L2) keeps models compact and well-behaved.
+- Works well as a strong baseline classifier and is easy to calibrate and explain.
 
-## Optimization Notes
-- Feature scaling improves conditioning.
-- For large n, stochastic gradient descent (SGD) or mini-batch methods are effective.
-- Newton's method uses Hessian H = X^T W X (for logistic, W is diagonal with σ(1-σ)).
-
-## Evaluation Metrics
-- Regression: MSE, R^2.
-- Classification: accuracy, precision/recall, ROC AUC, log-loss.
-
-## References
-- Bishop, Pattern Recognition and Machine Learning.
+## Practical notes
+- Scale or standardize features before training to help optimization.
+- Use validation curves to pick regularization strength; watch for class imbalance.
+- Compare full-batch solvers to mini-batch/SGD when datasets get large.
 
 ## Files
-See Project1JL.ipynb and Assignment 1 for notebooks and exercises.
+- `Project1JL.ipynb`: experiments with linear and logistic regression fits, feature scaling, and regularization.
+- `Assignment 1`: supporting materials and exercises.
